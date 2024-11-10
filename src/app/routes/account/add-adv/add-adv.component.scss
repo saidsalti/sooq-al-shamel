@@ -1,0 +1,6 @@
+.image-container {
+  display: flex;
+  align-items: center; /* التوسيط عمودياً */
+  justify-content: center; /* التوسيط أفقياً */
+  height: 100%; /* يجب أن تملأ `mat-card-content` كله لتوسيط الصورة */
+}

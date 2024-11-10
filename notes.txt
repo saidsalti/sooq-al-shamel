@@ -1,0 +1,2 @@
+ng g ng-matero:module auth
+ng g ng-matero:page login -m=auth
