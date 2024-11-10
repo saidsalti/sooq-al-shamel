@@ -13,11 +13,9 @@ import { PageHeaderComponent } from '@shared';
 export class AccountAdvComponent implements OnInit {
 
   router=inject(Router);
-  constructor() { }
-
   ngOnInit() {
   }
   addNewAdv(e:any){
-this.router.navigate(['/account/add-adv']);
+    this.router.navigate(['/account/select-g-section']);
   }
 }

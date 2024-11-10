@@ -40,9 +40,21 @@ export class LookupService {
     return r.documents;
   }
 
-  async parentSections() {
-    return await APPWRITE.db.listDocuments(APPWRITE.storeDbId, this.sections, [
-      Query.equal('parentId', '-1'),
-    ]);
+  async parentSections(filter?: string[]) {
+
+    let q: string[] = [];
+    q.push(Query.equal('parentId', '-1'));
+    if (filter && filter.length > 0) {
+      q = q.concat(filter);
+    }
+    return await APPWRITE.db.listDocuments(APPWRITE.storeDbId, this.sections, q);
+  }
+  async getChildSections(id: string,filter?: string[]) {
+    let q: string[] = [];
+    q.push(  Query.equal('parentId', id));
+    if (filter && filter.length > 0) {
+      q = q.concat(filter);
+    }
+    return await APPWRITE.db.listDocuments(APPWRITE.storeDbId, this.sections, q);
   }
 }

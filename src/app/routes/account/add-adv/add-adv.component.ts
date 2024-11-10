@@ -3,14 +3,19 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { PageHeaderComponent } from '@shared';
 import { AdvModel } from './adv.model';
 import { LookupService } from '@shared/services/lookup.service';
-import { distinctUntilChanged, from, map, Observable, startWith, switchMap } from 'rxjs';
 import { ScreenService } from '@shared/services/screen.service';
-import { AdvService } from '../adv/adv.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { Query } from 'appwrite';
+import { SectionsComponent } from '@shared/components/sections/sections.component';
+import { ToastService } from '@shared/services/mat.toust.service';
 interface OptionType {
   label: string;
   value: string | number;
@@ -23,25 +28,29 @@ interface OptionType {
   standalone: true,
   imports: [
     PageHeaderComponent,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     FormlyModule,
     MatButtonModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    SectionsComponent,
+
   ],
 })
 export class AccountAddAdvComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private lookup = inject(LookupService);
-  private screenService =inject(ScreenService);
+  private screenService = inject(ScreenService);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
   form = new FormGroup({});
   model: AdvModel = {};
-  makeOptions: any = [];
-  id?: string;
-  ratio = this.screenService.isMobile()?'2:1': '2:1';
-  cols=this.screenService.isMobile()?2:4;
-  parentSections?:any;
+
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'row',
@@ -70,14 +79,22 @@ export class AccountAddAdvComponent implements OnInit {
           className: 'col-sm-6',
           type: 'select',
           key: 'make',
+
           props: {
             label: 'المصنع',
+
             required: true,
-            // options: from(this.getOptionsAsObservable()),
           },
           hooks: {
             onInit: async (field: FormlyFieldConfig) => {
-              field.props!.options = await this.lookup.loadMakesOptions('ar');
+              const options = await this.lookup.loadMakesOptions('ar');
+              field.props!.options=options;
+              if (field.formControl && this.model.make) {
+                const selectedOption = options.find(option => option.value === this.model.make);
+                if (selectedOption) {
+                  field.formControl.setValue(selectedOption.value);
+                }
+              }
             },
           },
         },
@@ -114,15 +131,31 @@ export class AccountAddAdvComponent implements OnInit {
     },
   ];
 
-  getId() {
-    this.activatedRoute.paramMap.subscribe(s => {
-      this.id = s.get('id')!;
-    });
+  ngOnInit() {
+    const id = sessionStorage.getItem('_sv');
+    if (!id) {
+      this.router.navigate(['/account/select-section']);
+    }
+    this.getmodel();
   }
-  async ngOnInit() {
-  const sections= await this.lookup.parentSections();
-  this.parentSections=sections.documents;
+  getmodel(){
+    var modelStr = sessionStorage.getItem('__adv__model');
+    if(modelStr){
+      this.model=JSON.parse(modelStr);
+    }
+  }
+  submit() {
+
+    if(!this.form.valid){
+      this.toastService.error('يرجى التحقق من البيانات المدخلة');
+     return;
+    }
+
+      sessionStorage.setItem('__adv__model',JSON.stringify(this.form.value));
+      this.router.navigate(['/account/adv-images'])
   }
 
-  submit() {}
+  onCancel(e:any){
+
+  }
 }

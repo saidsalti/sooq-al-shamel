@@ -3,40 +3,11 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <h2>يرجى تحديد القسم</h2>
+      <a [routerLink]="'/account/select-section'">رجوع للخطوة السابقة</a>
+
+      <h2>الخطوة الثالثة: خيارات الاعلان</h2>
+
     </mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <section>
-      <!-- <mat-grid-list role="list" [cols]="cols" [rowHeight]="ratio" gutterSize="4px">
-        @for (section of parentSections; track section) {
-
-            <mat-grid-tile [style.background]="'blue'" role="listitem">{{section.name_ar}}</mat-grid-tile>
-
-
-        }
-      </mat-grid-list> -->
-      <div class="d-flex justify-content-start flex-wrap al">
-        @for (section of parentSections; track section) {
-          <mat-card [title]="section.name_ar" style=" margin: 2px; cursor: pointer;" class="">
-            <mat-card-header>{{ section.name_ar }}</mat-card-header>
-            <mat-card-content class="">
-              <div style="text-align: center;">
-                <img alt="" class="" width="160" height="120" [src]="section.image" />
-
-              </div>
-            </mat-card-content>
-          </mat-card>
-        }
-      </div>
-
-    </section>
-  </mat-card-content>
-</mat-card>
-
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>اعلان جديد</mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
@@ -44,8 +15,9 @@
       <formly-form [model]="model" [fields]="fields" [form]="form" />
 
       <div class="d-flex justify-content-center m-t-8">
-        <button mat-button class="m-x-8" type="button">Cancel</button>
-        <button mat-flat-button>Submit</button>
+        <button [disabled]="!form.valid" mat-flat-button >الحفظ واضافة الصور</button>
+
+        <button (click)="onCancel($event)" mat-flat-button class="m-x-8 text-error" type="button">الغاء الأمر</button>
       </div>
     </form>
   </mat-card-content>

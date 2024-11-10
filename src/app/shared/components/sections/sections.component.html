@@ -1,0 +1,23 @@
+
+<mat-card-content>
+  <section>
+    <div class="d-flex  flex-wrap al" [ngClass]="{'justify-content-start':!secreen.isMobile(),'justify-content-between':secreen.isMobile()}">
+      @if(!values.length){
+        عذرا لا توجد بيانات
+      }
+      @for (item of values; track item) {
+
+        <app-section-card
+         [title]="item[displayField!]"
+         [value]="item[valueField!]"
+         [redirectPath]="redirectpath!"
+         [imageUrl]="item[imageUrlField!]"
+         (selectedValue)="onSelectdValue($event)"
+         >
+
+        </app-section-card>
+      }
+    </div>
+
+  </section>
+  </mat-card-content>

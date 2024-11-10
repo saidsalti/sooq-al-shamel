@@ -1,0 +1,24 @@
+<page-header />
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>الخطو الاولى: حدد القسم العام</h2>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>البحث</mat-label>
+          <input (keyup)="onSearchInput($event)" type="text" matInput placeholder="ابحث بالاقسام" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+    </mat-card-title>
+  </mat-card-header>
+  <app-sections
+    [values]="parentSections"
+    [displayField]="'name_ar'"
+    [valueField]="'$id'"
+    [redirectpath]="'/select-section'"
+    [imageUrlField]="'image'"
+    (selectedValue)="onSelectedValue($event)"
+  ></app-sections>
+</mat-card>

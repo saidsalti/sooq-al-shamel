@@ -1,0 +1,27 @@
+<!-- <page-header [title]="'القسم العام'" [nav]="['select-g-section']" /> -->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <p>
+        <a [routerLink]="'/account/select-g-section'">رجوع للخطوة السابقة</a>
+      </p>
+      <h2>الخطوة الثانية: حدد القسم </h2>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>البحث</mat-label>
+          <input (keyup)="onSearchInput($event)" type="text" matInput placeholder="ابحث بالاقسام" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+    </mat-card-title>
+  </mat-card-header>
+  <app-sections
+    [values]="childSections"
+    [displayField]="'name_ar'"
+    [valueField]="'$id'"
+    [redirectpath]="'/select-section'"
+    [imageUrlField]="'image'"
+    (selectedValue)="onSelectedValue($event)"
+  ></app-sections>
+</mat-card>
