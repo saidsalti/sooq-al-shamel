@@ -1,0 +1,15 @@
+<div class="upload-container">
+  <input type="file"[accept]="acceptedMimeTypes.join(',')" hidden #fileInput
+  (change)="onFileChange($event)" />
+  <button mat-raised-button color="primary" (click)="fileInput.click()">
+    <mat-icon>file_upload</mat-icon> {{ label }}
+  </button>
+
+  <!-- عرض رسالة الخطأ إن وجدت -->
+  @if (errorMessage) {
+  <div class="error-message">
+    {{ errorMessage }}
+  </div>
+  }
+
+</div>

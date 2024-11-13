@@ -1,5 +1,5 @@
 import { environment } from '@env/environment';
-import { Client, Account, Databases } from 'appwrite';
+import { Client, Account, Databases, Storage } from 'appwrite';
 
 const client = new Client()
   .setProject(environment.appwrite.projectId)
@@ -9,6 +9,7 @@ export const APPWRITE = {
   projectId: environment.appwrite.projectId,
   client,
   account: new Account(client),
+  storeg:new Storage(client),
   db: new Databases(client),
   storeDbId: environment.appwrite.storedbId,
   advDbId: environment.appwrite.advDbId
@@ -19,4 +20,8 @@ export const collections={
     sections:'672f52ac0024224ec595',
 
   }
+};
+
+export const StorageBucket={
+  tempImages:'67339584003d6b64e0f9'
 };

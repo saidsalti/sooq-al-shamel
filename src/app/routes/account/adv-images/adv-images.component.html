@@ -1,3 +1,22 @@
-<page-header></page-header>
+<page-header />
 
-<p>adv-images works!</p>
+<mat-card>
+  <header>
+    <p>يرجى تحديد الصورة الرئيسية</p>
+  </header>
+  <mat-card-content>
+    <div class="imageContainer">
+      <div class="title">
+        <app-file-uploader (fileSelected)="onFileSelected($event)" label="تحديد الصورة"/>
+
+      </div>
+      <div
+      class="image">
+        <img  [src]="mainImageSrc"   alt="">
+
+      </div>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
