@@ -1,5 +1,5 @@
 <div class="upload-container">
-  <input type="file"[accept]="acceptedMimeTypes.join(',')" hidden #fileInput
+  <input type="file"[accept]="acceptedMimeTypes.join(',')" [multiple]="multiple" hidden #fileInput
   (change)="onFileChange($event)" />
   <button mat-raised-button color="primary" (click)="fileInput.click()">
     <mat-icon>file_upload</mat-icon> {{ label }}
