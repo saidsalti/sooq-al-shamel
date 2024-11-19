@@ -3,7 +3,7 @@ export const environment = {
   baseUrl: '',
   useHash: false,
   appwrite:{
-    production:false,
+
     projectId:'672cf68c0025cd99e9c5',
     aPIEndpoint:'https://cloud.appwrite.io/v1',
     storedbId:'672d07b100130d620b08',
